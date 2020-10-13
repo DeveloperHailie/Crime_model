@@ -59,15 +59,20 @@ for i in range(0,len(Time)) :
     elif (time=='01' or time=='02' or time=='03' or time=='04' or time=='05' or time=='06') :
         Time[i] = 3
 df[['Time']] = Time
+# Category 숫자로 변환
+Category = df[['Category']].values
+e.fit(Category)
+Category = e.transform(Category)
+df[['Category']] = Category
 
 # 데이터 분류
-dataset = df[['DayOfWeek','Time','X','Y','Category']].values
+dataset = df[['DayOfWeek','X','Y','Category', 'Time']].values
 X = dataset[:,0:4].astype(float)
 Y_obj = dataset[:,4]
 print(X)
 print(Y_obj)
 
-# Y 데이터 변환(숫자, 배열)
+# 모델 학습 위해 Y 데이터 변환(=>배열)
 e.fit(Y_obj)
 Y = e.transform(Y_obj)
 Y_encoded = tf.keras.utils.to_categorical(Y)
@@ -78,7 +83,8 @@ print(Y_encoded)
 ## 모델의 설정
 model = Sequential()
 model.add(Dense(16,  input_dim=4, activation='relu'))
-model.add(Dense(39, activation='softmax'))
+#model.add(Dense(32, activation='relu'))
+model.add(Dense(4, activation='softmax'))
 
 # 모델 컴파일
 model.compile(loss='categorical_crossentropy',
