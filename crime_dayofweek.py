@@ -69,32 +69,10 @@ df[['Category']] = Category
 
 df_test = df[['DayOfWeek','Time','X','Y','Category']]
 
-# 데이터간 관게 알아보기
-# 데이터 간의 상관관계를 그래프로 표현
-
-colormap = plt.cm.gist_heat   #그래프의 색상 구성
-plt.figure(figsize=(5,5))   #그래프의 크기
-
-# 그래프의 속성을 결정합니다. vmax의 값을 0.5로 지정해 0.5에 가까울 수록 밝은 색으로 표시
-sns.heatmap(df_test.corr(),linewidths=0.1,vmax=0.4, cmap=colormap, linecolor='white', annot=True)
-plt.show()
-
-grid = sns.FacetGrid(df_test, col='Category')
-grid.map(plt.hist, 'X',  bins=10)
-plt.show()
-
-grid = sns.FacetGrid(df_test, col='Time')
-grid.map(plt.hist, 'X',  bins=10)
-plt.show()
-
-grid = sns.FacetGrid(df_test, col='DayOfWeek')
-grid.map(plt.hist, 'Category',  bins=10)
-plt.show()
-
 
 
 # 데이터 분류
-dataset = df[['DayOfWeek','Time','X','Y','Category']].values
+dataset = df[['Time','X','Y','Category','DayOfWeek']].values
 X = dataset[:,0:4].astype(float)
 Y_obj = dataset[:,4]
 print(X)
@@ -112,7 +90,7 @@ print(Y_encoded)
 model = Sequential()
 model.add(Dense(16,  input_dim=4, activation='relu'))
 model.add(Dense(32, activation='relu'))
-model.add(Dense(39, activation='softmax'))
+model.add(Dense(7, activation='softmax'))
 
 # 모델 컴파일
 model.compile(loss='categorical_crossentropy',

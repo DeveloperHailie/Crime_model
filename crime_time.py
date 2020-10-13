@@ -83,7 +83,7 @@ print(Y_encoded)
 ## 모델의 설정
 model = Sequential()
 model.add(Dense(16,  input_dim=4, activation='relu'))
-#model.add(Dense(32, activation='relu'))
+model.add(Dense(32, activation='relu'))
 model.add(Dense(4, activation='softmax'))
 
 # 모델 컴파일
@@ -92,7 +92,7 @@ model.compile(loss='categorical_crossentropy',
             metrics=['accuracy'])
 
 # 모델 실행
-model.fit(X, Y_encoded, epochs=50, batch_size=100)
+model.fit(X, Y_encoded, epochs=50, batch_size=50)
 
 # 결과 출력
 print("\n Accuracy: %.4f" % (model.evaluate(X, Y_encoded)[1]))
